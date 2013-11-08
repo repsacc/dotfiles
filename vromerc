@@ -1,0 +1,11 @@
+" Preserve search
+map <M-f> <C-v><C-f>
+
+" Preserve print
+map <M-p> <C-v><C-p>
+
+" Preserve esc
+unmap <Esc>
+
+" Disable sites
+set disablesites=mail.google.com, digg.com
