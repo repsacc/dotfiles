@@ -1,37 +1,93 @@
 " don't sacrifice anything for vi compatibility
 set nocompatible
-
 set splitbelow
 set splitright
 " vundle begin
 filetype off
 
+" 256 colors
+set t_Co=256
+colorscheme byland
+
+" use comma as <leader> key instead of backslash
+let mapleader=","
+
 " vundle
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
-  
-Bundle 'gmarik/vundle'
-Bundle 'christoomey/vim-tmux-navigator'
-Bundle 'MarcWeber/vim-addon-mw-utils'
-Bundle 'Raimondi/delimitMate'
-Bundle 'docunext/closetag.vim'
-Bundle 'ervandew/supertab'
-Bundle 'garbas/vim-snipmate'
-Bundle 'jnwhiteh/vim-golang'
-Bundle 'kien/ctrlp.vim'
-Bundle 'mptre/snipmate-snippets'
-Bundle 'nelstrom/vim-mac-classic-theme'
-Bundle 'scrooloose/nerdtree'
-Bundle 'tomtom/tcomment_vim'
-Bundle 'tomtom/tlib_vim'
-Bundle 'tpope/vim-eunuch'
-Bundle 'tpope/vim-rails'
-Bundle 'tpope/vim-surround'
+
+" Let Vundle manage itself
+Plugin 'gmarik/Vundle.vim'
+Plugin 'Raimondi/delimitMate'
+Plugin 'kien/ctrlp.vim'
+Plugin 'scrooloose/nerdtree'
+Plugin 'scrooloose/syntastic'
+Plugin 'tpope/vim-commentary'
+Plugin 'bling/vim-airline'
+Plugin 'bling/vim-bufferline'
+Plugin 'airblade/vim-gitgutter'
 
 filetype plugin indent on
 
 " encoding
 set encoding=utf-8
+
+" Enable relative line numbers
+set relativenumber
+
+" Show buffers
+nmap Å :buffers!<cr>:buffer<Space>
+
+" Go to last buffer
+nnoremap å :b#<cr>
+
+" airline settings
+let g:airline_theme='wombat'
+
+let g:airline#extensions#whitespace#symbol = '!'
+let g:airline#extensions#whitespace#trailing_format = '%s'
+let g:airline#extensions#whitespace#mixed_indent_format = '~ %s'
+
+let g:airline_left_sep=""
+let g:airline_right_sep=""
+let g:airline_mode_map = {
+            \ '__' : '-',
+            \ 'n'  : 'N',
+            \ 'i'  : 'I',
+            \ 'R'  : 'R',
+            \ 'c'  : 'C',
+            \ 'v'  : 'V',
+            \ 'V'  : 'V-LINE',
+            \ '^V' : 'V',
+            \ 's'  : 'S',
+            \ 'S'  : 'S',
+            \ '^S' : 'S',
+            \ }
+let g:airline_section_z = '%l:%c %p%%'
+
+" enable bufferline in airline
+let g:airline#extensions#bufferline#enabled = 1
+let g:bufferline_echo = 0
+
+" gitgutter options
+let g:gitgutter_map_keys = 0
+nmap gk <plug>GitGutterPrevHunk
+nmap gj <plug>GitGutterNextHunk
+nmap gs <plug>GitGutterStageHunk
+nmap gr <plug>GitGutterRevertHunk
+
+" x + 'å' jumps to buffer x
+let c = 1
+while c <= 9
+  execute "nnoremap " . c . "å :" . c . "b\<cr>"
+  let c += 1
+endwhile
+
+" remove buffer
+nmap <leader>r :bwipeout<cr>
+
+" allow us to change unsaved buffers
+set hidden
 
 syntax on
 set number
@@ -41,9 +97,9 @@ set scrolloff=2
 
 " Whitespace stuff
 set nowrap
-set tabstop=2
-set shiftwidth=2
-set softtabstop=2
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
 set expandtab
 set list listchars=tab:\ \ ,trail:·
 
@@ -59,18 +115,17 @@ set smartcase
 
 " Tab completion
 set wildmode=list:longest,list:full
-"
-  " " Outliner: {{{1
-  " hi BT1 guifg=#808080 ctermfg=244 gui=italic
-  " hi OL1 guifg=#000000 ctermfg=0 gui=bold
-  " hi OL2 guifg=#0000A2 ctermfg=19 gui=bold
-  " hi OL3 guifg=#007B22 ctermfg=28 gui=bold
-  " hi OL4 guifg=#6E7935
-  " hi link cssAttr cssC}}}}}}}}}}}}}}}}"
+
+" prettier completion in cmdline
+set wildmenu
 
 " backspace fix
 set backspace=indent,eol,start
 
+" Latex
+autocmd Filetype tex setl updatetime=1
+" Rainbow parenthesis improved
+let g:rainbow_active = 1
 " Run default test constant.
 let g:RUN_DEFAULT_TEST = 0
 " Run current test in focus constant.
@@ -85,8 +140,8 @@ let g:ctrlp_prompt_mappings = {'PrtExit()':['§']}
 " closetag
 let g:closetag_html_style=1
 
-" use comma as <leader> key instead of backslash
-let mapleader=","
+" Gets rid of startup message
+set shortmess+=I
 
 " map capital w to write
 command! W w
@@ -101,7 +156,7 @@ cabbrev tnew tabedit
 map <leader>a :!column -t<cr>
 
 " map <leader>c to tcomment
-map <leader>c :TComment<cr>
+map <leader>c :Commentary<cr>
 
 " toggle nerdtree
 nmap <leader>d :NERDTreeToggle<cr>
@@ -128,7 +183,7 @@ map <leader>g :!git diff %<cr>
 map <leader>s :call OpenTest()<cr>
 
 " run current test
-map <leader>r :call RunCurrentTest(RUN_DEFAULT_TEST)<cr>
+" map <leader>r :call RunCurrentTest(RUN_DEFAULT_TEST)<cr>
 
 " run last runned test
 map <leader>l :call RunCurrentTest(RUN_LAST_TEST)<cr>
@@ -186,173 +241,13 @@ nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
-" colorscheme
-" colorscheme mac_classic
 
 " hilight column 80
-set colorcolumn=80
-hi ColorColumn ctermbg=255 guibg=255
+" set colorcolumn=80
+" hi ColorColumn ctermbg=blue ctermfg=white guibg=#592929
 
 " white background
 " hi Normal ctermbg=white guibg=white
 
 " white status bar
 hi StatusLineNC guifg=white ctermfg=white guibg=black ctermbg=black gui=NONE
-
-" Create the directory of the current file
-function CreateDirectory()
-  silent exec "!mkdir -p %:h"
-  redraw!
-endfunction
-
-function VisualSelectCurrentLine()
-  exec "normal! 0vg_"
-endfunction
-
-function OpenTest()
-  let test_file = GetTestFile(0)
-  let position = IsTestFile() ? "topleft" : "botright"
-
-  exec position . " vsplit " . test_file
-  redraw!
-endfunction
-
-function GetTestFile(test_file_only)
-  let test_file = expand('%')
-  let test_file_suffix = GetTestFileSuffix()
-
-  if IsTestFile() && !a:test_file_only
-    let test_file = substitute(test_file, '^' . GetTestFileDirectory() . '\/', '', '')
-    let test_file = substitute(test_file, '_' . test_file_suffix . '\(.' . GetTestFileType() . '\)$', '\1', '')
-    let prefixes = ['', 'app/', 'app/assets/']
-
-    for prefix in prefixes
-      let test_file_tmp = prefix . test_file
-      silent exec "!ls " . test_file_tmp . " &> /dev/null"
-
-      if v:shell_error == 0
-        break
-      endif
-    endfor
-
-    let test_file = test_file_tmp
-  elseif !IsTestFile()
-    let test_file = substitute(test_file, '^app\/', '', '')
-    let test_file = substitute(test_file, '^assets\/', '', '')
-    let test_file = substitute(test_file, '.' . GetTestFileType() . '$', '_' . test_file_suffix . '\0', '')
-    let test_file_directory = GetTestFileDirectory()
-
-    " if strlen(test_file_directory) == 0 && strlen(test_file_suffix) > 0
-    "   let test_file_directory = test_file_suffix . '/'
-    " endif
-
-    let test_file = test_file_directory . test_file
-  endif
-
-  return test_file
-endfunction
-
-function GetTestFileSuffix()
-  let directories = ['test', 'spec']
-  let suffix = directories[0]
-
-  for dir in directories
-    silent exec "!ls " . dir . " &> /dev/null"
-
-    if v:shell_error == 0
-      let suffix = dir
-      break
-    endif
-  endfor
-
-  return suffix
-endfunction
-
-function GetTestFileDirectory()
-  let directories = ['test', 'spec']
-  let directory = ''
-
-  for dir in directories
-    silent exec '!ls ' . dir . ' &> /dev/null'
-
-    if v:shell_error == 0
-      let directory = dir . '/'
-      break
-    endif
-  endfor
-
-  return directory
-endfunction
-
-function GetTestInFocus()
-  let test_in_focus = system("sed -n 1," . GetTestFileLine() . "p " . GetTestFile(1) . " | grep 'it [^:word:]' | sed 's/it\ [^:word:]\\(.*\\)[^:word:]\ do/\\1/' | tail -1 | xargs echo -n")
-  let test_in_focus = '/' . test_in_focus . '/'
-  let test_in_focus = substitute(test_in_focus, '\s', '\\\\s', 'g')
-
-  return test_in_focus
-endfunction
-
-function GetTestFileLine()
-  return line(".")
-endfunction
-
-function GetTestFileType()
-  return expand('%:e')
-endfunction
-
-function GetTestRunner()
-  if exists('g:test_runner')
-    return g:test_runner
-  elseif exists('$TEST_RUNNER')
-    return $TEST_RUNNER
-  endif
-endfunction
-
-function IsTestFile()
-  return match(expand('%'), '_' . GetTestFileSuffix() . '.' . GetTestFileType() . '$') > -1
-endfunction
-
-" test runner
-function RunCurrentTest(run_mode)
-  let cmd = GetTestRunner()
-
-  if a:run_mode == g:RUN_LAST_TEST
-    let test_file = g:last_test_file
-  else
-    let test_file = GetTestFile(1)
-  end
-
-  let cmd .= " " . test_file
-  let g:last_test_file = test_file
-
-  if a:run_mode == g:RUN_FOCUS_TEST
-    let cmd .= " -n " . GetTestInFocus()
-  end
-
-  " save current buffer
-  write
-  " run test
-  exec "!" . cmd
-  " clear output
-  silent exec "!clear"
-endfunction
-
-" Convert a single line import in Go into multi lines.
-"
-"   # before
-"   import \"fmt\"
-"
-"   # after
-"   import (
-"       \"fmt\"
-"   )
-function GoMultipleImport()
-  " Move to start of line.
-  exec "normal 0"
-  " Find the first string literal.
-  exec "normal f\""
-  " Insert open parentheses and new line.
-  exec "normal i(\n"
-  " Insert new line and close parentheses.
-  exec "normal o)"
-endfunction
