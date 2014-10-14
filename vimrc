@@ -13,8 +13,9 @@ colorscheme byland
 let mapleader=","
 
 " vundle
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+" set rtp+=~/.vim/bundle/vundle/
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
 
 " Let Vundle manage itself
 Plugin 'gmarik/Vundle.vim'
@@ -27,6 +28,7 @@ Plugin 'bling/vim-airline'
 Plugin 'bling/vim-bufferline'
 Plugin 'airblade/vim-gitgutter'
 
+call vundle#end()            " required
 filetype plugin indent on
 
 " encoding
