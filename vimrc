@@ -12,6 +12,13 @@ colorscheme byland
 " use comma as <leader> key instead of backslash
 let mapleader=","
 
+func Eatchar(pat)
+    let c = nr2char(getchar(0))
+    return (c =~ a:pat) ? '' : c
+endfunc
+autocmd BufNewFile,BufRead *.java iab println System.out.println("");<Left><Left><Left><C-R>=Eatchar('\s')<CR>
+
+
 " vundle
 " set rtp+=~/.vim/bundle/vundle/
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -19,7 +26,7 @@ call vundle#begin()
 
 " Let Vundle manage itself
 Plugin 'gmarik/Vundle.vim'
-Plugin 'Raimondi/delimitMate'
+" Plugin 'Raimondi/delimitMate'
 Plugin 'kien/ctrlp.vim'
 Plugin 'scrooloose/nerdtree'
 " Plugin 'scrooloose/syntastic'
@@ -27,7 +34,7 @@ Plugin 'derekwyatt/vim-scala'
 Plugin 'tpope/vim-commentary'
 Plugin 'bling/vim-airline'
 Plugin 'bling/vim-bufferline'
-Plugin 'airblade/vim-gitgutter'
+" Plugin 'airblade/vim-gitgutter'
 
 call vundle#end()            " required
 filetype plugin indent on
@@ -43,6 +50,8 @@ nmap Å :buffers!<cr>:buffer<Space>
 
 " Go to last buffer
 nnoremap å :b#<cr>
+nnoremap <space> :bnext<cr>
+nnoremap <bs> :bprev<cr>
 
 " airline settings
 let g:airline_theme='wombat'
