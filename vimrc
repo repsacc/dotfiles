@@ -18,7 +18,6 @@ func Eatchar(pat)
 endfunc
 autocmd BufNewFile,BufRead *.java iab println System.out.println("");<Left><Left><Left><C-R>=Eatchar('\s')<CR>
 
-
 " vundle
 " set rtp+=~/.vim/bundle/vundle/
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -32,7 +31,7 @@ Plugin 'scrooloose/nerdtree'
 " Plugin 'scrooloose/syntastic'
 Plugin 'derekwyatt/vim-scala'
 Plugin 'tpope/vim-commentary'
-Plugin 'bling/vim-airline'
+" Plugin 'bling/vim-airline'
 Plugin 'bling/vim-bufferline'
 " Plugin 'airblade/vim-gitgutter'
 
@@ -52,41 +51,6 @@ nmap Å :buffers!<cr>:buffer<Space>
 nnoremap å :b#<cr>
 nnoremap <space> :bnext<cr>
 nnoremap <bs> :bprev<cr>
-
-" airline settings
-let g:airline_theme='wombat'
-
-let g:airline#extensions#whitespace#symbol = '!'
-let g:airline#extensions#whitespace#trailing_format = '%s'
-let g:airline#extensions#whitespace#mixed_indent_format = '~ %s'
-
-let g:airline_left_sep=""
-let g:airline_right_sep=""
-let g:airline_mode_map = {
-            \ '__' : '-',
-            \ 'n'  : 'N',
-            \ 'i'  : 'I',
-            \ 'R'  : 'R',
-            \ 'c'  : 'C',
-            \ 'v'  : 'V',
-            \ 'V'  : 'V-LINE',
-            \ '^V' : 'V',
-            \ 's'  : 'S',
-            \ 'S'  : 'S',
-            \ '^S' : 'S',
-            \ }
-let g:airline_section_z = '%l:%c %p%%'
-
-" enable bufferline in airline
-let g:airline#extensions#bufferline#enabled = 1
-let g:bufferline_echo = 0
-
-" gitgutter options
-let g:gitgutter_map_keys = 0
-nmap gk <plug>GitGutterPrevHunk
-nmap gj <plug>GitGutterNextHunk
-nmap gs <plug>GitGutterStageHunk
-nmap gr <plug>GitGutterRevertHunk
 
 " x + 'å' jumps to buffer x
 let c = 1
@@ -134,17 +98,6 @@ set wildmenu
 " backspace fix
 set backspace=indent,eol,start
 
-" Latex
-autocmd Filetype tex setl updatetime=1
-" Rainbow parenthesis improved
-let g:rainbow_active = 1
-" Run default test constant.
-let g:RUN_DEFAULT_TEST = 0
-" Run current test in focus constant.
-let g:RUN_FOCUS_TEST = 1
-" Run last runned test constant.
-let g:RUN_LAST_TEST = 2
-
 " ctrlp
 let g:ctrlp_match_window_reversed = 0
 let g:ctrlp_prompt_mappings = {'PrtExit()':['§']}
@@ -191,26 +144,15 @@ map <leader>f :CtrlP<cr>
 " show diff using git for current file
 map <leader>g :!git diff %<cr>
 
-" open rails test file
-map <leader>s :call OpenTest()<cr>
-
-" run current test
-" map <leader>r :call RunCurrentTest(RUN_DEFAULT_TEST)<cr>
-
-" run last runned test
-map <leader>l :call RunCurrentTest(RUN_LAST_TEST)<cr>
-
-" run current test in focus
-map <leader>R :call RunCurrentTest(RUN_FOCUS_TEST)<cr>
-
-" map c in visual mode to select the current line
-map <leader>v :call VisualSelectCurrentLine()<cr>
+map <leader>s :vsplit<cr>
+map <leader>h :split<cr>
+map <leader>o :only<cr>
 
 " map <leader>w to close current split
-map <leader>w :q<cr>
+map <leader>q :q<cr>
 
 " map <leader>q to close current tab
-map <leader>q :tabclose<cr>
+map <leader>w :tabclose<cr>
 
 " suspend vim
 map <leader>z <c-z>
@@ -226,9 +168,6 @@ nnoremap § :noh<return><esc>
 
 " Map capital u to redo changes
 nnoremap U <C-r>
-
-" Interpret as Ruby
-au BufRead,BufNewFile {Capfile,Gemfile,Rakefile,Thorfile,config.ru} set ft=ruby
 
 " wrap markdown and latex
 au BufRead,BufNewFile {*.md,*.tex} setlocal textwidth=80
