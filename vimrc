@@ -41,9 +41,6 @@ filetype plugin indent on
 " encoding
 set encoding=utf-8
 
-" Enable relative line numbers
-set relativenumber
-
 " Show buffers
 nmap Å :buffers!<cr>:buffer<Space>
 
