@@ -1,0 +1,77 @@
+set number relativenumber " Show relative numbers but also the current line number
+set hlsearch
+set incsearch
+set ignorecase
+set smartcase
+
+nnoremap § :noh<CR><Esc>
+inoremap § <Esc>
+vnoremap § <Esc>
+
+" Simulate vim's keybindings
+nmap <C-O> <Action>(Back)
+nmap <C-I> <Action>(Forward)
+
+" Search results centered please
+nnoremap n nzz
+nnoremap N Nzz
+nnoremap * *zz
+nnoremap # #zz
+nnoremap g* g*zz
+nnoremap <C-d> <C-d>zz
+nnoremap <C-u> <C-u>zz
+nnoremap ]] ]]zz
+nnoremap [[ [[zz
+
+" Surround simulating bindings
+nnoremap s) ciw(<C-r>")<Esc>
+nnoremap s] ciw[<C-r>"]<Esc>
+nnoremap s} ciw{<C-r>"}<Esc>
+nnoremap s> ciw<lt><C-r>"><Esc>
+nnoremap s" ciw"<C-r>""<Esc>
+nnoremap s' ciw'<C-r>"'<Esc>
+nnoremap sw) ciW(<C-r>")<Esc>
+nnoremap sw] ciW[<C-r>"]<Esc>
+nnoremap sw} ciW{<C-r>"}<Esc>
+nnoremap sw> ciW<lt><C-r>"><Esc>
+nnoremap sw" ciW"<C-r>""<Esc>
+nnoremap sw' ciW'<C-r>"'<Esc>
+
+" Surround delete bindings
+nnoremap ds) vi(dvhp
+nnoremap ds] vi[dvhp
+nnoremap ds} vi{dvhp
+nnoremap ds> vi<dvhp
+nnoremap ds" vi"dvhp
+nnoremap ds' vi'dvhp
+
+" Surround change bindings
+nnoremap cs"' vi"oh<Esc>msvi"l<Esc>cl'<Esc>`scl'<Esc>
+nnoremap cs'" vi'oh<Esc>msvi'l<Esc>cl"<Esc>`scl"<Esc>
+
+" Surround visual selected text
+vnoremap S" c"<C-r>""<Esc>
+vnoremap S' c"<C-r>"'<Esc>
+vnoremap S) c(<C-r>")<Esc>
+vnoremap S] c[<C-r>"]<Esc>
+vnoremap S} c{<C-r>"}<Esc>
+vnoremap S> c<lt><C-r>"><Esc>
+vnoremap S* c/*<C-r>"*/<Esc>
+vnoremap St c<lt>div><CR><C-r>"<Esc>
+" Surround in div tag and edit tag
+" vnoremap St c<lt>div><CR><C-r>"<Esc>`<lt>lcw
+
+nmap U <Action>($Redo)
+nmap <C-s> <Action>(SaveDocument)
+nmap <A-m> <Action>(FileStructurePopup)
+nmap <A-s> <Action>(GotoSymbol)
+nmap <A-f> <Action>(GotoFile)
+nmap ,cc <Action>(CommentByLineComment)
+vmap ,cc <Action>(CommentByLineComment)
+nmap <S-Left> <Action>(MoveEditorToOppositeTabGroup)
+nmap <S-Right> <Action>(MoveEditorToOppositeTabGroup)
+nmap ,f <Action>(FindUsages)
+nmap ,G <Action>(Generate)
+set visualbell
+set noerrorbells
+
